@@ -1,20 +1,25 @@
 package io.falcon.pipeline.messaging;
 
 
+import io.falcon.pipeline.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 public class RedisMessageSubscriber implements MessageListener {
 
-    public static List<String> messageList = new ArrayList<String>();
+    @Autowired
+    private MessageService msgService;
 
     public void onMessage(final Message message, final byte[] pattern) {
-        messageList.add(message.toString());
-        System.out.println("Message received: " + new String(message.getBody()));
+
+        System.out.println("Message received: " + message.toString());
+
+
+        io.falcon.pipeline.domain.Message msg = new io.falcon.pipeline.domain.Message(message.toString());
+
+        msgService.saveMessage(msg);
     }
 }

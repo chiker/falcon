@@ -1,6 +1,6 @@
 package io.falcon.pipeline.web;
 
-import io.falcon.pipeline.model.PizzaOrder;
+import io.falcon.pipeline.domain.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -19,15 +19,17 @@ public class OrderController {
     StringRedisTemplate template;
 
     @RequestMapping(method= RequestMethod.GET)
-    public List<PizzaOrder> getAll() {
-        return new ArrayList<PizzaOrder>();
+    public List<Message> getAll() {
+        return new ArrayList<Message>();
     }
 
     @RequestMapping(method=RequestMethod.POST)
     public String create(HttpEntity<byte[]> requestEntity) {
-        System.out.println("json = " + new String(requestEntity.getBody()));
+        String messageContent = new String(requestEntity.getBody());
 
-        template.convertAndSend("json-payload:queue", new String(requestEntity.getBody()));
+        System.out.println("json = " + messageContent);
+
+        template.convertAndSend("json-payload:queue", messageContent);
 
         return "OK";
     }
