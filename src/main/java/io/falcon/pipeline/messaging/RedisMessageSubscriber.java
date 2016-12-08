@@ -5,9 +5,11 @@ import io.falcon.pipeline.domain.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+import javax.annotation.Resource;
+
+@Component
 public class RedisMessageSubscriber implements MessageListener {
 
     @Autowired
