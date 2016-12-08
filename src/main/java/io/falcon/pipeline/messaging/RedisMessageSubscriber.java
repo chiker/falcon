@@ -1,7 +1,7 @@
 package io.falcon.pipeline.messaging;
 
-
-import io.falcon.pipeline.service.MessageService;
+import io.falcon.pipeline.dao.RequestRepository;
+import io.falcon.pipeline.domain.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
@@ -11,15 +11,14 @@ import org.springframework.stereotype.Service;
 public class RedisMessageSubscriber implements MessageListener {
 
     @Autowired
-    private MessageService msgService;
+    private RequestRepository requestRepository;
 
     public void onMessage(final Message message, final byte[] pattern) {
 
         System.out.println("Message received: " + message.toString());
 
+        Request request = new Request(message.toString());
+        requestRepository.save(request);
 
-        io.falcon.pipeline.domain.Message msg = new io.falcon.pipeline.domain.Message(message.toString());
-
-        msgService.saveMessage(msg);
     }
 }

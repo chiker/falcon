@@ -1,6 +1,7 @@
 package io.falcon.pipeline.web;
 
-import io.falcon.pipeline.domain.Message;
+import io.falcon.pipeline.dao.RequestRepository;
+import io.falcon.pipeline.domain.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
@@ -18,12 +19,15 @@ public class OrderController {
     @Autowired
     StringRedisTemplate template;
 
-    @RequestMapping(method= RequestMethod.GET)
-    public List<Message> getAll() {
-        return new ArrayList<Message>();
+    @Autowired
+    private RequestRepository requestRepository;
+
+    @RequestMapping(method= RequestMethod.GET, produces = "application/json")
+    public List<Request> getAll() {
+        return requestRepository.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @RequestMapping(method=RequestMethod.POST, produces = "application/json")
     public String create(HttpEntity<byte[]> requestEntity) {
         String messageContent = new String(requestEntity.getBody());
 

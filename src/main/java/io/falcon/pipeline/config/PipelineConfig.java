@@ -5,6 +5,7 @@ import io.falcon.pipeline.messaging.RedisMessagePublisher;
 import io.falcon.pipeline.messaging.RedisMessageSubscriber;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -13,6 +14,7 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 
 @Configuration
+@EnableJpaRepositories(basePackages = "io.falcon.pipeline.dao")
 public class PipelineConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
