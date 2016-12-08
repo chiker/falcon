@@ -38,8 +38,7 @@ public class PipelineConfig {
     }
 
     @Bean
-    RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory,
-                                                 MessageListenerAdapter listenerAdapter) {
+    RedisMessageListenerContainer redisContainer(MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container
                 = new RedisMessageListenerContainer();
         container.setConnectionFactory(jedisConnectionFactory());
