@@ -2,11 +2,8 @@ package io.falcon.pipeline.config;
 
 import io.falcon.pipeline.messaging.MessagePublisher;
 import io.falcon.pipeline.messaging.RedisMessagePublisher;
-import io.falcon.pipeline.messaging.RedisMessageSubscriber;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -15,7 +12,6 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.stereotype.Component;
 
 @Configuration
 public class PipelineConfig {
@@ -44,11 +40,6 @@ public class PipelineConfig {
         container.setConnectionFactory(jedisConnectionFactory());
         container.addMessageListener(listenerAdapter, topic());
         return container;
-    }
-
-    @Bean
-    MessagePublisher redisPublisher() {
-        return new RedisMessagePublisher(redisTemplate(), topic());
     }
 
     @Bean
