@@ -5,8 +5,10 @@ import io.falcon.pipeline.domain.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class OrderController {
     }
 
     @RequestMapping(method=RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
     public String create(HttpEntity<byte[]> requestEntity) {
         String messageContent = new String(requestEntity.getBody());
 
