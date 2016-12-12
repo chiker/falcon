@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.falcon.pipeline.dao.RequestRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class OrderControllerTest {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Before
+    public void setUp() throws Exception {
+        requestRepository.deleteAll();
+    }
+
     @Test
     public void shouldGetOrders() throws Exception {
         int entityNumber = requestRepository.findAll().size();
@@ -41,14 +47,9 @@ public class OrderControllerTest {
     @Test
     public void shouldPostOrder() throws Exception {
         String json = "{\"message\" : \"Hello world!\"}";
-        int entityNumberBefore = requestRepository.findAll().size();
 
         mvc.perform(post("/orders").contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isCreated())
                 .andExpect(content().string(equalTo("OK")));
-
-        int entityNumberAfter = requestRepository.findAll().size();
-
-        assertThat(entityNumberBefore).isEqualTo(entityNumberAfter - 1);
     }
 }
